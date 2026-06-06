@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Barbería El Estilo</title>
+<link rel="stylesheet" href="src/css/style.css">
+</head>
+<body>
+<header class="hero">
+    <h1>Barbería El Estilo</h1>
+    <p>Cortes de Vanguardia & Productos de Cuidado Masculino</p>
+    <a href="#contacto" class="btn">Reserva tu cita</a>
+</header>
+
+<nav>
+    <a href="#sobre">Sobre Nosotros</a>
+    <a href="#servicios">Servicios</a>
+    <a href="#productos">Productos</a>
+    <a href="#precios">Precios</a>
+    <a href="#contacto">Contacto</a>
+</nav>
+
+<main>
+    <section id="sobre">
+        <h2>Sobre Nosotros</h2>
+        <p>Somos una barbería dedicada al estilo masculino, con misión de entregar confianza y calidad en cada corte.</p>
+    </section>
+
+    <section id="servicios">
+        <h2>Servicios</h2>
+        <div class="grid">
+            <article>
+                <img src="src/assets/img/fade.jpg" alt="Fade Moderno">
+                <h3>Fade Moderno</h3>
+                <p>Degradado perfecto adaptado a tu rostro.</p>
+            </article>
+            <article>
+                <img src="src/assets/img/barba.jpg" alt="Barba Premium">
+                <h3>Barba Premium</h3>
+                <p>Delineado simétrico con tratamiento de hidratación.</p>
+            </article>
+            <article>
+                <img src="src/assets/img/degradado.jpg" alt="Degradado">
+                <h3>Degradado</h3>
+                <p>Técnica tradicional en distintos niveles.</p>
+            </article>
+        </div>
+    </section>
+
+    <section id="productos">
+        <h2>Productos</h2>
+        <div class="grid">
+            <article>
+                <h3>Pomada Fijación Fuerte 
+                    <img src="src/assets/img/pomada.jpg" alt="Pomada Fijación Fuerte" />
+                </h3>
+                <p>Cera con acabado mate o semi-brillo.</p>
+            </article>
+            <article>
+                <img src="src/assets/img/aceite.jpg" alt="Aceite Nutritivo Orgánico">
+                <h3>Aceite Nutritivo Orgánico</h3>
+                <p>Suaviza el vello y da brillo saludable.</p>
+            </article>
+            <article>
+                <img src="src/assets/img/mascarilla.jpg" alt="Mascarilla facial para cuidado de la piel">
+                <h3>Mascarilla Facial</h3>
+                <p>Tratamiento hidratante que ayuda a limpiar, revitalizar y mejorar la apariencia de la piel.</p>
+            </article>
+        </div>
+    </section>
+
+    <section id="precios">
+        <h2>Precios</h2>
+        <table>
+            <tr><th>Servicio</th><th>Precio</th></tr>
+            <tr><td>Corte Fade Moderno</td><td>$15.000</td></tr>
+            <tr><td>Barba Premium</td><td>$12.000</td></tr>
+            <tr><td>Corte Clásico</td><td>$14.000</td></tr>
+        </table>
+    </section>
+
+    <section id="contacto">
+        <h2>Contacto</h2>
+        <form id="contact-form">
+            <input type="text" id="nombre" placeholder="Nombre" required>
+            <input type="email" id="correo" placeholder="Email" required>
+            <input type="text" id="asunto" placeholder="Asunto" required>
+            <textarea id="mensaje" placeholder="Mensaje" required></textarea>
+            <button type="submit">Enviar</button>
+        </form>
+    </section>
+</main>
+
+<footer>
+    <p>© 2026 Barbería El Estilo</p>
+</footer>
+
+<script src="src/js/form-validation.js"></script>
+</body>
+</html>
