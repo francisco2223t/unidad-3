@@ -119,7 +119,7 @@ function actualizarMenuUsuario(){
   if(user.tipo === 'Administrador' || user.tipo === 'Vendedor') panelLink = '<a href="admin/index.html">Panel Admin</a>';
   ingLink.outerHTML =
     '<span style="position:relative;display:inline-block" class="user-menu">'+
-      '<a href="#" onclick="event.preventDefault();this.nextElementSibling.classList.toggle(\'show\')" style="font-weight:700">&#128100; '+user.nombre+'</a>'+
+      '<a href="#" onclick="event.preventDefault();var d=this.nextElementSibling;d.style.display=d.style.display==\'block\'?\'none\':\'block\'" style="font-weight:700">&#128100; '+user.nombre+'</a>'+
       '<div style="display:none;position:absolute;top:100%;right:0;background:var(--surface);border-radius:10px;box-shadow:var(--shadow);min-width:180px;z-index:200;padding:8px 0" class="user-dropdown">'+
         '<a href="perfil.html" style="display:block;padding:8px 16px;font-size:.85rem">&#128100; Mi Perfil</a>'+
         panelLink+
@@ -128,7 +128,7 @@ function actualizarMenuUsuario(){
     '</span>';
   document.addEventListener('click', function(e){
     if(!e.target.closest('.user-menu')){
-      document.querySelectorAll('.user-dropdown.show').forEach(function(d){ d.classList.remove('show'); });
+      document.querySelectorAll('.user-dropdown').forEach(function(d){ d.style.display = 'none'; });
     }
   });
 }
