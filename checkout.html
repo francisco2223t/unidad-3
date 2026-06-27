@@ -60,6 +60,28 @@
           <textarea id="chkNotas" class="form-control"></textarea>
         </div>
 
+        <div class="form-group" style="margin-bottom:20px">
+          <label>M&#233;todo de pago</label>
+          <div style="display:flex;flex-direction:column;gap:8px;margin-top:6px">
+            <label style="display:flex;align-items:center;gap:10px;padding:10px 14px;background:var(--surface);border-radius:10px;border:2px solid rgba(139,69,19,0.1);cursor:pointer">
+              <input type="radio" name="metodoPago" value="transferencia" checked style="accent-color:var(--accent-chocolate);width:18px;height:18px">
+              <span>&#128179; Transferencia bancaria</span>
+            </label>
+            <label style="display:flex;align-items:center;gap:10px;padding:10px 14px;background:var(--surface);border-radius:10px;border:2px solid rgba(139,69,19,0.1);cursor:pointer">
+              <input type="radio" name="metodoPago" value="tarjeta" style="accent-color:var(--accent-chocolate);width:18px;height:18px">
+              <span>&#128177; Tarjeta de cr&#233;dito/d&#233;bito</span>
+            </label>
+            <label style="display:flex;align-items:center;gap:10px;padding:10px 14px;background:var(--surface);border-radius:10px;border:2px solid rgba(139,69,19,0.1);cursor:pointer">
+              <input type="radio" name="metodoPago" value="contraentrega" style="accent-color:var(--accent-chocolate);width:18px;height:18px">
+              <span>&#128666; Pago contra entrega</span>
+            </label>
+          </div>
+          <div id="pagoDetalle" style="margin-top:12px;padding:14px;background:var(--bg);border-radius:10px;display:none;font-size:.9rem">
+            <p><strong>Datos Transferencia</strong></p>
+            <p>Banco Estado<br>Cuenta Vista: 123-456-789<br>RUT: 76.123.456-7<br>Titular: Pasteler&#237;a 1000 Sabores SpA<br>Email: pagos@1000sabores.cl</p>
+          </div>
+        </div>
+
         <div id="discountInfo" style="background:#d4edda;border-radius:10px;padding:14px;text-align:center;font-weight:600;color:#155724;display:none"></div>
 
         <div style="text-align:right;font-size:1.3rem;padding:16px 0">
@@ -144,6 +166,15 @@ document.addEventListener('DOMContentLoaded', function(){
 
   var hoy = new Date();
   document.getElementById('chkFecha').min = hoy.toISOString().split('T')[0];
+
+  document.querySelectorAll('input[name="metodoPago"]').forEach(function(r){
+    r.addEventListener('change', function(){
+      document.getElementById('pagoDetalle').style.display = this.value === 'transferencia' ? 'block' : 'none';
+    });
+  });
+  if(document.querySelector('input[name="metodoPago"]:checked').value === 'transferencia'){
+    document.getElementById('pagoDetalle').style.display = 'block';
+  }
 });
 
 document.getElementById('checkoutForm').addEventListener('submit', function(e){
@@ -167,12 +198,16 @@ document.getElementById('checkoutForm').addEventListener('submit', function(e){
   var desc = user.desc50 ? 0.50 : (user.codigo === 'FELICES50' ? 0.10 : 0);
   total = total - Math.round(total * desc);
 
+  var metodoPago = document.querySelector('input[name="metodoPago"]:checked');
+  metodoPago = metodoPago ? metodoPago.value : 'transferencia';
+
   var pedidos = JSON.parse(localStorage.getItem('ms_pedidos')) || [];
   pedidos.unshift({
     items: JSON.parse(JSON.stringify(cart)),
     total: total,
     fecha: fecha,
     direccion: direccion,
+    metodoPago: metodoPago,
     estado: 'pendiente',
     creado: new Date().toISOString(),
     usuario: user.email
@@ -183,8 +218,12 @@ document.getElementById('checkoutForm').addEventListener('submit', function(e){
   document.getElementById('checkoutForm').style.display = 'none';
   var conf = document.getElementById('orderConfirm');
   conf.style.display = 'block';
+  var pagoLabel = {transferencia:'Transferencia bancaria', tarjeta:'Tarjeta de cr&#233;dito/d&#233;bito', contraentrega:'Pago contra entrega'};
   conf.innerHTML = '&#127881; &#161;Pedido confirmado!<br><br>'+
     'Gracias por tu compra, '+user.nombre+'.<br>'+
+    'M&#233;todo de pago: <strong>'+(pagoLabel[metodoPago]||metodoPago)+'</strong><br>'+
+    'Direcci&#243;n de entrega: '+direccion+'<br>'+
+    'Fecha: '+fecha+'<br><br>'+
     'Recibir&#225;s notificaciones del estado de tu pedido.<br><br>'+
     '<a href="index.html" class="btn">Volver al inicio</a>';
 });
