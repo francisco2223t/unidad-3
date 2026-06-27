@@ -94,6 +94,12 @@ document.getElementById('contactForm').addEventListener('submit', function(e){
     { id: 'contComentario', requerido: true, max: 500 }
   ]);
   if(!valido) return;
+  var nombre = document.getElementById('contNombre').value.trim();
+  var email = document.getElementById('contEmail').value.trim();
+  var comentario = document.getElementById('contComentario').value.trim();
+  var mensajes = JSON.parse(localStorage.getItem('ms_mensajes')) || [];
+  mensajes.unshift({ nombre: nombre, email: email, comentario: comentario, fecha: new Date().toISOString() });
+  localStorage.setItem('ms_mensajes', JSON.stringify(mensajes));
   document.getElementById('contactMsg').className = 'form-msg success';
   document.getElementById('contactMsg').textContent = '&#127881; Mensaje enviado correctamente. Te contactaremos pronto.';
   this.reset();

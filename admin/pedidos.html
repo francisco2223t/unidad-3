@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin - Pedidos</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700;900&family=Pacifico&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../src/css/style.css">
+</head>
+<body>
+
+<div class="admin-layout">
+  <aside class="admin-sidebar">
+    <h3>1000 Sabores</h3>
+    <a href="index.html">Dashboard</a>
+    <a href="productos.html">Productos</a>
+    <a href="pedidos.html" class="active">Pedidos</a>
+    <a href="mensajes.html">Mensajes</a>
+    <a href="usuarios.html" id="menuUsuarios">Usuarios</a>
+    <a href="../index.html">Ver Tienda</a>
+    <a href="#" id="btnCerrarSesion" style="margin-top:20px;opacity:.6">Cerrar Sesi&#243;n</a>
+  </aside>
+  <main class="admin-content">
+    <h2>Pedidos</h2>
+    <div id="pedidosList"></div>
+  </main>
+</div>
+
+<script src="../src/js/productos.js"></script>
+<script>
+(function(){
+  var user = JSON.parse(localStorage.getItem('ms_usuario_actual'));
+  if(!user || (user.tipo !== 'Administrador' && user.tipo !== 'Vendedor')){ window.location.href = '../login.html'; return; }
+  if(user.tipo === 'Vendedor'){ var mu = document.getElementById('menuUsuarios'); if(mu) mu.style.display = 'none'; }
+  document.getElementById('btnCerrarSesion').addEventListener('click', function(e){ e.preventDefault(); localStorage.removeItem('ms_usuario_actual'); window.location.href = '../login.html'; });
+
+  var pagoLabel = {transferencia:'Transferencia', tarjeta:'Tarjeta', contraentrega:'Contra entrega'};
+  var pedidos = JSON.parse(localStorage.getItem('ms_pedidos')) || [];
+  var cont = document.getElementById('pedidosList');
+  if(!pedidos.length){
+    cont.innerHTML = '<p class="cart-empty">No hay pedidos.</p>';
+    return;
+  }
+  cont.innerHTML = pedidos.map(function(p, i){
+    var items = p.items.map(function(it){
+      var prod = getProductByCode(it.codigo);
+      return '<div style="font-size:.85rem;padding:2px 0">'+(prod?prod.nombre:it.codigo)+' x'+it.cantidad+(it.mensaje?' <em>"'+it.mensaje+'"</em>':'')+'</div>';
+    }).join('');
+    var estadoStyles = {pendiente:'background:#fff3cd;color:#856404', preparacion:'background:#cce5ff;color:#004085', enviado:'background:#d4edda;color:#155724', entregado:'background:#d4edda;color:#155724'};
+    return '<div style="background:var(--surface);border-radius:var(--radius);padding:16px;margin-bottom:14px;box-shadow:var(--shadow)">'+
+      '<div style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;margin-bottom:8px">'+
+        '<strong>Pedido #'+(i+1)+'</strong>'+
+        '<span style="font-size:.85rem">'+new Date(p.creado).toLocaleString('es-CL')+'</span>'+
+      '</div>'+
+      '<div style="font-size:.9rem;margin-bottom:6px"><strong>Cliente:</strong> '+p.usuario+'</div>'+
+      '<div style="font-size:.9rem"><strong>Direcci&#243;n:</strong> '+p.direccion+'</div>'+
+      '<div style="font-size:.9rem"><strong>Fecha entrega:</strong> '+p.fecha+'</div>'+
+      '<div style="font-size:.9rem"><strong>Pago:</strong> '+(pagoLabel[p.metodoPago]||p.metodoPago||'-')+'</div>'+
+      '<div style="margin:8px 0;padding:8px;background:var(--bg);border-radius:8px">'+items+'</div>'+
+      '<div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px">'+
+        '<div><strong>Total:</strong> $'+p.total.toLocaleString('es-CL')+' CLP</div>'+
+        '<div>'+
+          '<select onchange="cambiarEstado('+i+',this.value)" style="padding:6px 10px;border-radius:8px;border:2px solid rgba(139,69,19,0.12);font-size:.85rem">'+
+            '<option value="pendiente"'+(p.estado==='pendiente'?' selected':'')+'>Pendiente</option>'+
+            '<option value="preparacion"'+(p.estado==='preparacion'?' selected':'')+'>En preparaci&#243;n</option>'+
+            '<option value="enviado"'+(p.estado==='enviado'?' selected':'')+'>Enviado</option>'+
+            '<option value="entregado"'+(p.estado==='entregado'?' selected':'')+'>Entregado</option>'+
+          '</select>'+
+        '</div>'+
+      '</div>'+
+      '<div style="margin-top:8px;display:inline-block;padding:4px 12px;border-radius:12px;font-size:.8rem;font-weight:600'+(estadoStyles[p.estado]?';'+estadoStyles[p.estado]:'')+'">'+
+        (p.estado||'pendiente').charAt(0).toUpperCase()+(p.estado||'pendiente').slice(1)+
+      '</div>'+
+    '</div>';
+  }).join('');
+})();
+
+function cambiarEstado(idx, estado){
+  var pedidos = JSON.parse(localStorage.getItem('ms_pedidos')) || [];
+  if(pedidos[idx]){ pedidos[idx].estado = estado; localStorage.setItem('ms_pedidos', JSON.stringify(pedidos)); }
+  var t = document.getElementById('toast');
+  if(t){ t.textContent = 'Estado actualizado'; t.classList.add('show'); setTimeout(function(){ t.classList.remove('show'); }, 2800); }
+}
+</script>
+</body>
+</html>

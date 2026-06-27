@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin - Mensajes</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700;900&family=Pacifico&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../src/css/style.css">
+</head>
+<body>
+
+<div class="admin-layout">
+  <aside class="admin-sidebar">
+    <h3>1000 Sabores</h3>
+    <a href="index.html">Dashboard</a>
+    <a href="productos.html">Productos</a>
+    <a href="pedidos.html">Pedidos</a>
+    <a href="mensajes.html" class="active">Mensajes</a>
+    <a href="usuarios.html" id="menuUsuarios">Usuarios</a>
+    <a href="../index.html">Ver Tienda</a>
+    <a href="#" id="btnCerrarSesion" style="margin-top:20px;opacity:.6">Cerrar Sesi&#243;n</a>
+  </aside>
+  <main class="admin-content">
+    <h2>Mensajes de Contacto</h2>
+    <div id="mensajesList"></div>
+  </main>
+</div>
+
+<script>
+(function(){
+  var user = JSON.parse(localStorage.getItem('ms_usuario_actual'));
+  if(!user || (user.tipo !== 'Administrador' && user.tipo !== 'Vendedor')){ window.location.href = '../login.html'; return; }
+  if(user.tipo === 'Vendedor'){ var mu = document.getElementById('menuUsuarios'); if(mu) mu.style.display = 'none'; }
+  document.getElementById('btnCerrarSesion').addEventListener('click', function(e){ e.preventDefault(); localStorage.removeItem('ms_usuario_actual'); window.location.href = '../login.html'; });
+
+  var mensajes = JSON.parse(localStorage.getItem('ms_mensajes')) || [];
+  var cont = document.getElementById('mensajesList');
+  if(!mensajes.length){
+    cont.innerHTML = '<p class="cart-empty">No hay mensajes.</p>';
+    return;
+  }
+  cont.innerHTML = mensajes.map(function(m){
+    return '<div style="background:var(--surface);border-radius:var(--radius);padding:16px;margin-bottom:12px;box-shadow:var(--shadow)">'+
+      '<div style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;margin-bottom:8px">'+
+        '<strong>'+m.nombre+'</strong>'+
+        '<span style="color:var(--text-secondary);font-size:.85rem">'+m.email+'</span>'+
+        '<span style="font-size:.8rem;color:var(--text-secondary)">'+new Date(m.fecha).toLocaleString('es-CL')+'</span>'+
+      '</div>'+
+      '<p style="margin:0;font-size:.95rem">'+m.comentario+'</p>'+
+    '</div>';
+  }).join('');
+})();
+</script>
+</body>
+</html>
