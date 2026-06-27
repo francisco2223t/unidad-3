@@ -3,99 +3,116 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Barbería El Estilo</title>
+<title>Pastelería 1000 Sabores</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700;900&family=Pacifico&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="src/css/style.css">
 </head>
 <body>
-<header class="hero">
-    <h1>Barbería El Estilo</h1>
-    <p>Cortes de Vanguardia & Productos de Cuidado Masculino</p>
-    <a href="#contacto" class="btn">Reserva tu cita</a>
+
+<header class="header">
+  <div class="header-inner container">
+    <a href="index.html" class="logo"><img src="src/assets/mil-sabores/hero-title.png" alt="1000 Sabores"> 1000 Sabores</a>
+    <nav class="nav" id="mainNav">
+      <a href="index.html">Inicio</a>
+      <a href="productos.html">Productos</a>
+      <a href="nosotros.html">Nosotros</a>
+      <a href="blog.html">Blog</a>
+      <a href="contacto.html">Contacto</a>
+      <a href="login.html">Ingresar</a>
+      <a href="carrito.html" class="cart-icon">&#128722; <span class="cart-badge">0</span></a>
+    </nav>
+    <button class="hamburger" onclick="document.getElementById('mainNav').classList.toggle('open')">&#9776;</button>
+  </div>
 </header>
 
-<nav>
-    <a href="#sobre">Sobre Nosotros</a>
-    <a href="#servicios">Servicios</a>
-    <a href="#productos">Productos</a>
-    <a href="#precios">Precios</a>
-    <a href="#contacto">Contacto</a>
-</nav>
+<section class="hero">
+  <div class="container hero-content">
+    <h1>50 A&#241;os Endulzando Chile</h1>
+    <p>Celebramos nuestro aniversario con el sabor de siempre y las ganas de seguir creando momentos inolvidables.</p>
+    <a href="productos.html" class="btn">Ver productos</a>
+  </div>
+</section>
 
 <main>
-    <section id="sobre">
-        <h2>Sobre Nosotros</h2>
-        <p>Somos una barbería dedicada al estilo masculino, con misión de entregar confianza y calidad en cada corte.</p>
-    </section>
+  <section class="section">
+    <div class="container">
+      <h2>Nuestros Productos Destacados</h2>
+      <div class="grid-4" id="productosDestacados"></div>
+      <div style="text-align:center;margin-top:24px">
+        <a href="productos.html" class="btn">Ver todos los productos</a>
+      </div>
+    </div>
+  </section>
 
-    <section id="servicios">
-        <h2>Servicios</h2>
-        <div class="grid">
-            <article>
-                <img src="src/assets/img/fade.jpg" alt="Fade Moderno">
-                <h3>Fade Moderno</h3>
-                <p>Degradado perfecto adaptado a tu rostro.</p>
-            </article>
-            <article>
-                <img src="src/assets/img/barba.jpg" alt="Barba Premium">
-                <h3>Barba Premium</h3>
-                <p>Delineado simétrico con tratamiento de hidratación.</p>
-            </article>
-            <article>
-                <img src="src/assets/img/degradado.jpg" alt="Degradado">
-                <h3>Degradado</h3>
-                <p>Técnica tradicional en distintos niveles.</p>
-            </article>
-        </div>
-    </section>
+  <section class="section section-alt" id="nosotros">
+    <div class="container">
+      <h2>Pasteler&#237;a 1000 Sabores</h2>
+      <p style="text-align:center;max-width:700px;margin:0 auto;font-size:1.05rem">
+        Somos una pasteler&#237;a tradicional chilena con m&#225;s de 50 a&#241;os de historia. 
+        Participamos en el r&#233;cord Guinness de la torta m&#225;s grande del mundo en 1995 
+        y hoy seguimos endulzando la vida de nuestros clientes con recetas &#250;nicas.
+      </p>
+    </div>
+  </section>
 
-    <section id="productos">
-        <h2>Productos</h2>
-        <div class="grid">
-            <article>
-                <h3>Pomada Fijación Fuerte 
-                    <img src="src/assets/img/pomada.jpg" alt="Pomada Fijación Fuerte" />
-                </h3>
-                <p>Cera con acabado mate o semi-brillo.</p>
-            </article>
-            <article>
-                <img src="src/assets/img/aceite.jpg" alt="Aceite Nutritivo Orgánico">
-                <h3>Aceite Nutritivo Orgánico</h3>
-                <p>Suaviza el vello y da brillo saludable.</p>
-            </article>
-            <article>
-                <img src="src/assets/img/mascarilla.jpg" alt="Mascarilla facial para cuidado de la piel">
-                <h3>Mascarilla Facial</h3>
-                <p>Tratamiento hidratante que ayuda a limpiar, revitalizar y mejorar la apariencia de la piel.</p>
-            </article>
-        </div>
-    </section>
-
-    <section id="precios">
-        <h2>Precios</h2>
-        <table>
-            <tr><th>Servicio</th><th>Precio</th></tr>
-            <tr><td>Corte Fade Moderno</td><td>$15.000</td></tr>
-            <tr><td>Barba Premium</td><td>$12.000</td></tr>
-            <tr><td>Corte Clásico</td><td>$14.000</td></tr>
-        </table>
-    </section>
-
-    <section id="contacto">
-        <h2>Contacto</h2>
-        <form id="contact-form">
-            <input type="text" id="nombre" placeholder="Nombre" required>
-            <input type="email" id="correo" placeholder="Email" required>
-            <input type="text" id="asunto" placeholder="Asunto" required>
-            <textarea id="mensaje" placeholder="Mensaje" required></textarea>
-            <button type="submit">Enviar</button>
-        </form>
-    </section>
+  <section class="section despedida">
+    <div class="container">
+      <img src="src/assets/mil-sabores/despedida.png" alt="Gracias" class="despedida-img">
+      <h2>&#127856; &#161;Gracias por visitarnos! &#127856;</h2>
+      <p>Celebra la dulzura de la vida con Pasteler&#237;a 1000 Sabores.<br>Descubre, saborea y crea momentos inolvidables con nosotros.</p>
+      <p class="despedida-firma">Con cari&#241;o, todo el equipo de 1000 Sabores &#10084;</p>
+    </div>
+  </section>
 </main>
 
-<footer>
-    <p>© 2026 Barbería El Estilo</p>
+<footer class="footer">
+  <div class="container footer-grid">
+    <div>
+      <h3>Pasteler&#237;a 1000 Sabores</h3>
+      <p>&#128205; Santiago, Chile</p>
+      <p>&#128222; +56 2 2123 4567</p>
+      <p>&#9993; contacto@1000sabores.cl</p>
+    </div>
+    <div>
+      <h3>Horario</h3>
+      <p>Lun - S&#225;b: 8:00 - 20:00</p>
+      <p>Dom: 9:00 - 14:00</p>
+    </div>
+    <div>
+      <h3>Enlaces</h3>
+      <a href="productos.html">Productos</a>
+      <a href="nosotros.html">Nosotros</a>
+      <a href="blog.html">Blog</a>
+      <a href="contacto.html">Contacto</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>&copy; 2026 Pasteler&#237;a 1000 Sabores. Todos los derechos reservados.</p>
+  </div>
 </footer>
 
-<script src="src/js/form-validation.js"></script>
+<div class="toast" id="toast"></div>
+<script src="src/js/productos.js"></script>
+<script src="src/js/carrito.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function(){
+  var grid = document.getElementById('productosDestacados');
+  if(grid){
+    grid.innerHTML = getProducts().slice(0, 4).map(function(p){
+      return '<div class="card">'+
+        '<img src="'+imgPath(p.imagen)+'" alt="'+p.nombre+'" class="card-img">'+
+        '<div class="card-body">'+
+          '<span class="cat">'+p.categoria+'</span>'+
+          '<h3>'+p.nombre+'</h3>'+
+          '<span class="price">'+formatPrice(p.precio)+'</span>'+
+          '<button class="btn btn-sm" onclick="addToCart(\''+p.codigo+'\')">A&#241;adir</button>'+
+        '</div>'+
+      '</div>';
+    }).join('');
+  }
+});
+</script>
 </body>
 </html>

@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin - Usuario</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700;900&family=Pacifico&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../src/css/style.css">
+</head>
+<body>
+
+<div class="admin-layout">
+  <aside class="admin-sidebar" id="sidebar">
+    <h3>1000 Sabores</h3>
+    <a href="index.html">Dashboard</a>
+    <a href="productos.html">Productos</a>
+    <a href="usuarios.html" class="active">Usuarios</a>
+    <a href="../index.html">Ver Tienda</a>
+    <a href="#" id="btnCerrarSesion" style="margin-top:20px;opacity:.6">Cerrar Sesi&#243;n</a>
+  </aside>
+  <main class="admin-content">
+    <a href="usuarios.html" class="btn btn-secondary btn-sm">&larr; Volver</a>
+    <h2 id="formTitle">Nuevo Usuario</h2>
+
+    <form id="usuarioForm" style="max-width:600px">
+      <div class="form-row">
+        <div class="form-group">
+          <label>RUN (sin puntos ni gui&#243;n)</label>
+          <input type="text" id="userRun" class="form-control" placeholder="19011022K">
+          <div class="form-error" id="userRun-error"></div>
+        </div>
+        <div class="form-group">
+          <label>Edad</label>
+          <input type="number" id="userEdad" class="form-control" placeholder="25" min="1" max="120">
+          <div class="form-error" id="userEdad-error"></div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Nombre completo</label>
+        <input type="text" id="userNombre" class="form-control" placeholder="Juan P&#233;rez">
+        <div class="form-error" id="userNombre-error"></div>
+      </div>
+      <div class="form-group">
+        <label>Correo electr&#243;nico</label>
+        <input type="email" id="userEmail" class="form-control" placeholder="tucorreo@gmail.com">
+        <div class="form-error" id="userEmail-error"></div>
+      </div>
+      <div class="form-group">
+        <label>Contrase&#241;a</label>
+        <input type="password" id="userPass" class="form-control" placeholder="Entre 4 y 10 caracteres">
+        <div class="form-error" id="userPass-error"></div>
+      </div>
+      <div class="form-group">
+        <label>Tipo de usuario</label>
+        <select id="userTipo" class="form-control">
+          <option value="Cliente">Cliente</option>
+          <option value="Administrador">Administrador</option>
+          <option value="Vendedor">Vendedor</option>
+        </select>
+        <div class="form-error" id="userTipo-error"></div>
+      </div>
+      <div class="form-group">
+        <label>Direcci&#243;n</label>
+        <input type="text" id="userDireccion" class="form-control" placeholder="Av. Siempre Viva 123">
+        <div class="form-error" id="userDireccion-error"></div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Regi&#243;n</label>
+          <select id="userRegion" class="form-control" onchange="cargarComunas()">
+            <option value="">Seleccionar...</option>
+          </select>
+          <div class="form-error" id="userRegion-error"></div>
+        </div>
+        <div class="form-group">
+          <label>Comuna</label>
+          <select id="userComuna" class="form-control">
+            <option value="">Seleccionar...</option>
+          </select>
+          <div class="form-error" id="userComuna-error"></div>
+        </div>
+      </div>
+      <div class="form-msg" id="userMsg"></div>
+      <button type="submit" class="btn">Guardar</button>
+    </form>
+  </main>
+</div>
+
+<script src="../src/js/validaciones.js"></script>
+<script src="../src/js/regiones.js"></script>
+<script>
+(function(){
+  var user = JSON.parse(localStorage.getItem('ms_usuario_actual'));
+  if(!user || user.tipo !== 'Administrador'){ window.location.href = '../login.html'; return; }
+  document.getElementById('btnCerrarSesion').addEventListener('click', function(e){ e.preventDefault(); localStorage.removeItem('ms_usuario_actual'); window.location.href = '../login.html'; });
+
+  var selRegion = document.getElementById('userRegion');
+  regionesComunas.forEach(function(r){
+    var opt = document.createElement('option');
+    opt.value = r.region;
+    opt.textContent = r.region;
+    selRegion.appendChild(opt);
+  });
+
+  var params = new URLSearchParams(window.location.search);
+  var editIdx = params.get('idx');
+  var editUser = null;
+  if(editIdx !== null){
+    var users = JSON.parse(localStorage.getItem('ms_usuarios')) || [];
+    editUser = users[parseInt(editIdx)];
+    if(editUser){
+      document.getElementById('formTitle').textContent = 'Editar Usuario';
+      document.getElementById('userRun').value = editUser.run;
+      document.getElementById('userRun').readOnly = true;
+      document.getElementById('userEdad').value = editUser.edad;
+      document.getElementById('userNombre').value = editUser.nombre;
+      document.getElementById('userEmail').value = editUser.email;
+      document.getElementById('userEmail').readOnly = true;
+      document.getElementById('userPass').value = editUser.pass;
+      document.getElementById('userTipo').value = editUser.tipo || 'Cliente';
+      document.getElementById('userDireccion').value = editUser.direccion || '';
+      if(editUser.region){
+        document.getElementById('userRegion').value = editUser.region;
+        cargarComunas();
+        if(editUser.comuna) document.getElementById('userComuna').value = editUser.comuna;
+      }
+    }
+  }
+
+  document.getElementById('usuarioForm').addEventListener('submit', function(e){
+    e.preventDefault();
+    var valido = validarFormulario([
+      { id: 'userRun', requerido: true, run: true },
+      { id: 'userEdad', requerido: true, soloNumeros: true },
+      { id: 'userNombre', requerido: true, max: 50 },
+      { id: 'userEmail', requerido: true, email: true, emailPermitido: true, max: 100 },
+      { id: 'userPass', requerido: true, rango: [4, 10] },
+      { id: 'userTipo', requerido: true, select: true },
+      { id: 'userDireccion', max: 200 },
+      { id: 'userRegion', select: true },
+      { id: 'userComuna', select: true }
+    ]);
+    if(!valido) return;
+
+    var users = JSON.parse(localStorage.getItem('ms_usuarios')) || [];
+    var nuevo = {
+      run: document.getElementById('userRun').value.trim(),
+      edad: parseInt(document.getElementById('userEdad').value),
+      nombre: document.getElementById('userNombre').value.trim(),
+      email: document.getElementById('userEmail').value.trim(),
+      pass: document.getElementById('userPass').value.trim(),
+      tipo: document.getElementById('userTipo').value,
+      direccion: document.getElementById('userDireccion').value.trim(),
+      region: document.getElementById('userRegion').value,
+      comuna: document.getElementById('userComuna').value,
+      codigo: '',
+      desc50: parseInt(document.getElementById('userEdad').value) >= 50
+    };
+
+    if(editUser){
+      var idx = users.findIndex(function(u){ return u.run === editUser.run; });
+      if(idx > -1) users[idx] = nuevo;
+    } else {
+      if(users.find(function(u){ return u.run === nuevo.run; })){
+        document.getElementById('userMsg').className = 'form-msg error';
+        document.getElementById('userMsg').textContent = 'El RUN ya existe.';
+        return;
+      }
+      users.push(nuevo);
+    }
+    localStorage.setItem('ms_usuarios', JSON.stringify(users));
+    document.getElementById('userMsg').className = 'form-msg success';
+    document.getElementById('userMsg').textContent = 'Usuario guardado. Redirigiendo...';
+    setTimeout(function(){ window.location.href = 'usuarios.html'; }, 1000);
+  });
+})();
+
+function cargarComunas(){
+  var region = document.getElementById('userRegion').value;
+  var selComuna = document.getElementById('userComuna');
+  selComuna.innerHTML = '<option value="">Seleccionar...</option>';
+  if(!region) return;
+  var r = regionesComunas.find(function(r){ return r.region === region; });
+  if(r) r.comunas.forEach(function(c){
+    var opt = document.createElement('option');
+    opt.value = c;
+    opt.textContent = c;
+    selComuna.appendChild(opt);
+  });
+}
+</script>
+</body>
+</html>

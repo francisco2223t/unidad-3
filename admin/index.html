@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin - Pasteler&#237;a 1000 Sabores</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700;900&family=Pacifico&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../src/css/style.css">
+</head>
+<body>
+
+<div id="adminApp">
+  <div class="admin-layout">
+    <aside class="admin-sidebar" id="sidebar">
+      <h3>1000 Sabores</h3>
+      <a href="index.html" class="active">Dashboard</a>
+      <a href="productos.html" id="menuProductos">Productos</a>
+      <a href="usuarios.html" id="menuUsuarios">Usuarios</a>
+      <a href="../index.html">Ver Tienda</a>
+      <a href="#" id="btnCerrarSesion" style="margin-top:20px;opacity:.6">Cerrar Sesi&#243;n</a>
+    </aside>
+    <main class="admin-content">
+      <h2>Panel de Administraci&#243;n</h2>
+      <p>Bienvenido, <strong id="adminNombre"></strong></p>
+      <p style="color:var(--text-secondary)">Rol: <strong id="adminRol"></strong></p>
+
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:16px;margin-top:24px">
+        <div style="background:var(--bg);border-radius:var(--radius);padding:24px;text-align:center;box-shadow:var(--shadow)">
+          <div style="font-size:2.5rem;margin-bottom:8px">&#127860;</div>
+          <h3 style="font-size:1rem;margin:0">Productos</h3>
+          <p style="font-size:2rem;font-weight:700;margin:8px 0 0" id="totalProductos">-</p>
+        </div>
+        <div style="background:var(--bg);border-radius:var(--radius);padding:24px;text-align:center;box-shadow:var(--shadow)">
+          <div style="font-size:2.5rem;margin-bottom:8px">&#128101;</div>
+          <h3 style="font-size:1rem;margin:0">Usuarios</h3>
+          <p style="font-size:2rem;font-weight:700;margin:8px 0 0" id="totalUsuarios">-</p>
+        </div>
+        <div style="background:var(--bg);border-radius:var(--radius);padding:24px;text-align:center;box-shadow:var(--shadow)">
+          <div style="font-size:2.5rem;margin-bottom:8px">&#128722;</div>
+          <h3 style="font-size:1rem;margin:0">Pedidos</h3>
+          <p style="font-size:2rem;font-weight:700;margin:8px 0 0" id="totalPedidos">-</p>
+        </div>
+      </div>
+    </main>
+  </div>
+</div>
+
+<script src="../src/js/productos.js"></script>
+<script>
+(function(){
+  var user = JSON.parse(localStorage.getItem('ms_usuario_actual'));
+  if(!user || (user.tipo !== 'Administrador' && user.tipo !== 'Vendedor')){
+    window.location.href = '../login.html';
+    return;
+  }
+  document.getElementById('adminNombre').textContent = user.nombre;
+  document.getElementById('adminRol').textContent = user.tipo;
+
+  if(user.tipo === 'Vendedor'){
+    document.getElementById('menuUsuarios').style.display = 'none';
+  }
+
+  document.getElementById('totalProductos').textContent = getProducts().length;
+  var users = JSON.parse(localStorage.getItem('ms_usuarios')) || [];
+  document.getElementById('totalUsuarios').textContent = users.length;
+  var pedidos = JSON.parse(localStorage.getItem('ms_pedidos')) || [];
+  document.getElementById('totalPedidos').textContent = pedidos.length;
+
+  document.getElementById('btnCerrarSesion').addEventListener('click', function(e){
+    e.preventDefault();
+    localStorage.removeItem('ms_usuario_actual');
+    window.location.href = '../login.html';
+  });
+})();
+</script>
+</body>
+</html>

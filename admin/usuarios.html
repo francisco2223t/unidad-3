@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin - Usuarios</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700;900&family=Pacifico&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../src/css/style.css">
+</head>
+<body>
+
+<div class="admin-layout">
+  <aside class="admin-sidebar" id="sidebar">
+    <h3>1000 Sabores</h3>
+    <a href="index.html">Dashboard</a>
+    <a href="productos.html">Productos</a>
+    <a href="usuarios.html" class="active">Usuarios</a>
+    <a href="../index.html">Ver Tienda</a>
+    <a href="#" id="btnCerrarSesion" style="margin-top:20px;opacity:.6">Cerrar Sesi&#243;n</a>
+  </aside>
+  <main class="admin-content">
+    <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;margin-bottom:20px">
+      <h2 style="margin:0">Usuarios</h2>
+      <a href="usuario-form.html" class="btn btn-sm">+ Nuevo Usuario</a>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>RUN</th><th>Nombre</th><th>Email</th><th>Tipo</th><th>Edad</th><th>Acciones</th></tr></thead>
+        <tbody id="usuariosTableBody"></tbody>
+      </table>
+    </div>
+  </main>
+</div>
+
+<script>
+(function(){
+  var user = JSON.parse(localStorage.getItem('ms_usuario_actual'));
+  if(!user || user.tipo !== 'Administrador'){ window.location.href = '../login.html'; return; }
+  document.getElementById('btnCerrarSesion').addEventListener('click', function(e){ e.preventDefault(); localStorage.removeItem('ms_usuario_actual'); window.location.href = '../login.html'; });
+  render();
+})();
+function render(){
+  var tbody = document.getElementById('usuariosTableBody');
+  var users = JSON.parse(localStorage.getItem('ms_usuarios')) || [];
+  tbody.innerHTML = users.map(function(u, i){
+    return '<tr>'+
+      '<td>'+u.run+'</td>'+
+      '<td>'+u.nombre+'</td>'+
+      '<td>'+u.email+'</td>'+
+      '<td>'+u.tipo+'</td>'+
+      '<td>'+u.edad+'</td>'+
+      '<td>'+
+        '<a href="usuario-form.html?idx='+i+'" class="btn btn-sm">Editar</a> '+
+        '<button class="btn btn-sm btn-danger" onclick="eliminar('+i+')">Eliminar</button>'+
+      '</td></tr>';
+  }).join('');
+}
+function eliminar(idx){
+  if(!confirm('Eliminar este usuario?')) return;
+  var users = JSON.parse(localStorage.getItem('ms_usuarios')) || [];
+  users.splice(idx, 1);
+  localStorage.setItem('ms_usuarios', JSON.stringify(users));
+  render();
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Blog - Pasteler&#237;a 1000 Sabores</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700;900&family=Pacifico&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="src/css/style.css">
+</head>
+<body>
+
+<header class="header">
+  <div class="header-inner container">
+    <a href="index.html" class="logo"><img src="src/assets/mil-sabores/hero-title.png" alt="1000 Sabores"> 1000 Sabores</a>
+    <nav class="nav" id="mainNav">
+      <a href="index.html">Inicio</a>
+      <a href="productos.html">Productos</a>
+      <a href="nosotros.html">Nosotros</a>
+      <a href="blog.html">Blog</a>
+      <a href="contacto.html">Contacto</a>
+      <a href="login.html">Ingresar</a>
+      <a href="carrito.html" class="cart-icon">&#128722; <span class="cart-badge">0</span></a>
+    </nav>
+    <button class="hamburger" onclick="document.getElementById('mainNav').classList.toggle('open')">&#9776;</button>
+  </div>
+</header>
+
+<main>
+  <section class="section">
+    <div class="container">
+      <h2>Blog y Noticias</h2>
+      <div class="grid-3">
+        <div class="card" onclick="window.location.href='blog-detalle.html?id=1'" style="cursor:pointer">
+          <img src="src/assets/mil-sabores/torta-especial.jpg" alt="R&#233;cord Guinness" class="card-img">
+          <div class="card-body">
+            <h3>La historia de la torta m&#225;s grande del mundo</h3>
+            <p>C&#243;mo Pasteler&#237;a 1000 Sabores particip&#243; en el r&#233;cord Guinness de 1995.</p>
+          </div>
+        </div>
+        <div class="card" onclick="window.location.href='blog-detalle.html?id=2'" style="cursor:pointer">
+          <img src="src/assets/mil-sabores/torta-manjar.jpg" alt="Receta Manjar" class="card-img">
+          <div class="card-body">
+            <h3>Receta: Cl&#225;sico Manjar chileno</h3>
+            <p>Aprende a preparar el tradicional manjar chileno en casa.</p>
+          </div>
+        </div>
+        <div class="card" onclick="window.location.href='blog-detalle.html?id=3'" style="cursor:pointer">
+          <img src="src/assets/mil-sabores/cupcakes.jpg" alt="Decoraci&#243;n" class="card-img">
+          <div class="card-body">
+            <h3>Consejos para decorar tortas</h3>
+            <p>Tips de nuestros estudiantes de gastronom&#237;a para decorar como profesional.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="footer">
+  <div class="container footer-grid">
+    <div>
+      <h3>Pasteler&#237;a 1000 Sabores</h3>
+      <p>&#128205; Santiago, Chile</p>
+      <p>&#128222; +56 2 2123 4567</p>
+      <p>&#9993; contacto@1000sabores.cl</p>
+    </div>
+    <div>
+      <h3>Horario</h3>
+      <p>Lun - S&#225;b: 8:00 - 20:00</p>
+      <p>Dom: 9:00 - 14:00</p>
+    </div>
+    <div>
+      <h3>Enlaces</h3>
+      <a href="productos.html">Productos</a>
+      <a href="nosotros.html">Nosotros</a>
+      <a href="blog.html">Blog</a>
+      <a href="contacto.html">Contacto</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>&copy; 2026 Pasteler&#237;a 1000 Sabores.</p>
+  </div>
+</footer>
+
+<div class="toast" id="toast"></div>
+<script src="src/js/carrito.js"></script>
+</body>
+</html>

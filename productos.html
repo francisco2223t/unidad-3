@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Productos - Pasteler&#237;a 1000 Sabores</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700;900&family=Pacifico&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="src/css/style.css">
+</head>
+<body>
+
+<header class="header">
+  <div class="header-inner container">
+    <a href="index.html" class="logo"><img src="src/assets/mil-sabores/hero-title.png" alt="1000 Sabores"> 1000 Sabores</a>
+    <nav class="nav" id="mainNav">
+      <a href="index.html">Inicio</a>
+      <a href="productos.html">Productos</a>
+      <a href="nosotros.html">Nosotros</a>
+      <a href="blog.html">Blog</a>
+      <a href="contacto.html">Contacto</a>
+      <a href="login.html">Ingresar</a>
+      <a href="carrito.html" class="cart-icon">&#128722; <span class="cart-badge">0</span></a>
+    </nav>
+    <button class="hamburger" onclick="document.getElementById('mainNav').classList.toggle('open')">&#9776;</button>
+  </div>
+</header>
+
+<main>
+  <section class="section">
+    <div class="container">
+      <h2>Todos los Productos</h2>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-bottom:24px" id="filtros">
+        <button class="btn btn-sm btn-secondary" data-cat="todas" onclick="filtrar('todas')">Todas</button>
+        <button class="btn btn-sm btn-secondary" data-cat="Tortas Cuadradas" onclick="filtrar('Tortas Cuadradas')">Tortas Cuadradas</button>
+        <button class="btn btn-sm btn-secondary" data-cat="Tortas Circulares" onclick="filtrar('Tortas Circulares')">Tortas Circulares</button>
+        <button class="btn btn-sm btn-secondary" data-cat="Postres Individuales" onclick="filtrar('Postres Individuales')">Individuales</button>
+        <button class="btn btn-sm btn-secondary" data-cat="Productos Sin Az&#250;car" onclick="filtrar('Productos Sin Az&#250;car')">Sin Az&#250;car</button>
+        <button class="btn btn-sm btn-secondary" data-cat="Pasteler&#237;a Tradicional" onclick="filtrar('Pasteler&#237;a Tradicional')">Tradicional</button>
+        <button class="btn btn-sm btn-secondary" data-cat="Productos Sin Gluten" onclick="filtrar('Productos Sin Gluten')">Sin Gluten</button>
+        <button class="btn btn-sm btn-secondary" data-cat="Productos Vegana" onclick="filtrar('Productos Vegana')">Vegana</button>
+        <button class="btn btn-sm btn-secondary" data-cat="Tortas Especiales" onclick="filtrar('Tortas Especiales')">Especiales</button>
+      </div>
+      <div class="grid-4" id="productosGrid"></div>
+    </div>
+  </section>
+</main>
+
+<footer class="footer">
+  <div class="container footer-grid">
+    <div>
+      <h3>Pasteler&#237;a 1000 Sabores</h3>
+      <p>&#128205; Santiago, Chile</p>
+      <p>&#128222; +56 2 2123 4567</p>
+      <p>&#9993; contacto@1000sabores.cl</p>
+    </div>
+    <div>
+      <h3>Horario</h3>
+      <p>Lun - S&#225;b: 8:00 - 20:00</p>
+      <p>Dom: 9:00 - 14:00</p>
+    </div>
+    <div>
+      <h3>Enlaces</h3>
+      <a href="productos.html">Productos</a>
+      <a href="nosotros.html">Nosotros</a>
+      <a href="blog.html">Blog</a>
+      <a href="contacto.html">Contacto</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>&copy; 2026 Pasteler&#237;a 1000 Sabores.</p>
+  </div>
+</footer>
+
+<div class="toast" id="toast"></div>
+<script src="src/js/productos.js"></script>
+<script src="src/js/carrito.js"></script>
+<script>
+var filtroActual = 'todas';
+function filtrar(cat){
+  filtroActual = cat;
+  document.querySelectorAll('#filtros .btn').forEach(function(b){
+    b.classList.toggle('btn-secondary', b.getAttribute('data-cat') !== cat);
+  });
+  renderProductos();
+}
+function renderProductos(){
+  var grid = document.getElementById('productosGrid');
+  var prods = getProducts();
+  if(filtroActual !== 'todas') prods = prods.filter(function(p){ return p.categoria === filtroActual; });
+  if(!prods.length){ grid.innerHTML = '<p class="cart-empty">No se encontraron productos.</p>'; return; }
+  grid.innerHTML = prods.map(function(p){
+    return '<div class="card" onclick="window.location.href=\'producto-detalle.html?codigo='+p.codigo+'\'" style="cursor:pointer">'+
+      '<img src="'+imgPath(p.imagen)+'" alt="'+p.nombre+'" class="card-img">'+
+      '<div class="card-body">'+
+        '<span class="cat">'+p.categoria+'</span>'+
+        '<h3>'+p.nombre+'</h3>'+
+        '<span class="price">'+formatPrice(p.precio)+'</span>'+
+        '<button class="btn btn-sm" onclick="event.stopPropagation();addToCart(\''+p.codigo+'\')">A&#241;adir</button>'+
+      '</div>'+
+    '</div>';
+  }).join('');
+}
+document.addEventListener('DOMContentLoaded', renderProductos);
+</script>
+</body>
+</html>

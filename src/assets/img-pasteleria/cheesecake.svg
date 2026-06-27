@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="600" height="400" viewBox="0 0 600 400">
+  <defs><linearGradient id="bg4" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#fdf3e7"/><stop offset="100%" stop-color="#f4e4d0"/></linearGradient></defs>
+  <rect width="600" height="400" fill="url(#bg4)"/>
+  <rect x="190" y="170" width="220" height="120" rx="4" fill="#f5e6c8"/>
+  <rect x="190" y="170" width="220" height="30" rx="4" fill="#e8d5b0"/>
+  <rect x="190" y="200" width="220" height="90" fill="#f5e6c8"/>
+  <rect x="170" y="290" width="260" height="30" rx="3" fill="#c99a6b"/>
+  <path d="M190 210 Q240 190 300 210 Q360 230 410 210" fill="none" stroke="#d4a017" stroke-width="2" opacity="0.5"/>
+  <circle cx="270" cy="230" r="8" fill="#e06060"/>
+  <circle cx="330" cy="225" r="6" fill="#e06060"/>
+  <circle cx="300" cy="245" r="7" fill="#e06060"/>
+  <circle cx="250" cy="245" r="5" fill="#e06060"/>
+  <circle cx="340" cy="242" r="5" fill="#e06060"/>
+  <text x="300" y="355" text-anchor="middle" fill="rgba(92,58,33,0.4)" font-family="Georgia,serif" font-size="18">Cheesecake New York</text>
+</svg>

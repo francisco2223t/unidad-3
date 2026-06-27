@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nosotros - Pasteler&#237;a 1000 Sabores</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700;900&family=Pacifico&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="src/css/style.css">
+</head>
+<body>
+
+<header class="header">
+  <div class="header-inner container">
+    <a href="index.html" class="logo"><img src="src/assets/mil-sabores/hero-title.png" alt="1000 Sabores"> 1000 Sabores</a>
+    <nav class="nav" id="mainNav">
+      <a href="index.html">Inicio</a>
+      <a href="productos.html">Productos</a>
+      <a href="nosotros.html">Nosotros</a>
+      <a href="blog.html">Blog</a>
+      <a href="contacto.html">Contacto</a>
+      <a href="login.html">Ingresar</a>
+      <a href="carrito.html" class="cart-icon">&#128722; <span class="cart-badge">0</span></a>
+    </nav>
+    <button class="hamburger" onclick="document.getElementById('mainNav').classList.toggle('open')">&#9776;</button>
+  </div>
+</header>
+
+<main>
+  <section class="section">
+    <div class="container" style="max-width:800px;margin:0 auto">
+      <h2>Nuestra Historia</h2>
+      <img src="src/assets/mil-sabores/vitrina-postres.jpg" alt="Pasteler&#237;a 1000 Sabores" style="width:100%;max-height:350px;object-fit:cover;border-radius:var(--radius);margin-bottom:24px">
+      <p>Pasteler&#237;a 1000 Sabores naci&#243; en 1976 en Santiago de Chile, fundada por la familia Contreras con la misi&#243;n de llevar los mejores sabores tradicionales a cada hogar chileno.</p>
+      <p>En 1995 fuimos parte del r&#233;cord Guinness de la torta m&#225;s grande del mundo, un hito que marc&#243; nuestra historia y nos impuls&#243; a seguir innovando.</p>
+      <p>Hoy, con m&#225;s de 50 a&#241;os de experiencia, seguimos elaborando productos artesanales con ingredientes frescos y mucho amor, formando adem&#225;s a nuevas generaciones de pasteleros en alianza con Duoc UC.</p>
+    </div>
+  </section>
+
+  <section class="section section-alt">
+    <div class="container" style="max-width:800px;margin:0 auto">
+      <h2>Nuestro Equipo</h2>
+      <div class="grid-3">
+        <div class="card" style="text-align:center;padding:20px">
+          <div style="font-size:3rem">&#127859;</div>
+          <h3 style="font-size:1rem">Mar&#237;a Contreras</h3>
+          <p style="font-size:.85rem">Fundadora & Pastelera Principal</p>
+        </div>
+        <div class="card" style="text-align:center;padding:20px">
+          <div style="font-size:3rem">&#127860;</div>
+          <h3 style="font-size:1rem">Carlos Mu&#241;oz</h3>
+          <p style="font-size:.85rem">Chef Pastelero</p>
+        </div>
+        <div class="card" style="text-align:center;padding:20px">
+          <div style="font-size:3rem">&#127856;</div>
+          <h3 style="font-size:1rem">Ana Soto</h3>
+          <p style="font-size:.85rem">Encargada de Reposter&#237;a</p>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="footer">
+  <div class="container footer-grid">
+    <div>
+      <h3>Pasteler&#237;a 1000 Sabores</h3>
+      <p>&#128205; Santiago, Chile</p>
+      <p>&#128222; +56 2 2123 4567</p>
+      <p>&#9993; contacto@1000sabores.cl</p>
+    </div>
+    <div>
+      <h3>Horario</h3>
+      <p>Lun - S&#225;b: 8:00 - 20:00</p>
+      <p>Dom: 9:00 - 14:00</p>
+    </div>
+    <div>
+      <h3>Enlaces</h3>
+      <a href="productos.html">Productos</a>
+      <a href="nosotros.html">Nosotros</a>
+      <a href="blog.html">Blog</a>
+      <a href="contacto.html">Contacto</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>&copy; 2026 Pasteler&#237;a 1000 Sabores.</p>
+  </div>
+</footer>
+
+<div class="toast" id="toast"></div>
+<script src="src/js/carrito.js"></script>
+</body>
+</html>

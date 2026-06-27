@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin - Producto</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700;900&family=Pacifico&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../src/css/style.css">
+</head>
+<body>
+
+<div class="admin-layout">
+  <aside class="admin-sidebar" id="sidebar">
+    <h3>1000 Sabores</h3>
+    <a href="index.html">Dashboard</a>
+    <a href="productos.html" class="active">Productos</a>
+    <a href="usuarios.html" id="menuUsuarios">Usuarios</a>
+    <a href="../index.html">Ver Tienda</a>
+    <a href="#" id="btnCerrarSesion" style="margin-top:20px;opacity:.6">Cerrar Sesi&#243;n</a>
+  </aside>
+  <main class="admin-content">
+    <a href="productos.html" class="btn btn-secondary btn-sm">&larr; Volver</a>
+    <h2 id="formTitle">Nuevo Producto</h2>
+
+    <form id="productoForm" style="max-width:600px">
+      <div class="form-group">
+        <label>C&#243;digo</label>
+        <input type="text" id="prodCodigo" class="form-control" placeholder="TC003">
+        <div class="form-error" id="prodCodigo-error"></div>
+      </div>
+      <div class="form-group">
+        <label>Categor&#237;a</label>
+        <select id="prodCategoria" class="form-control">
+          <option value="">Seleccionar...</option>
+          <option value="Tortas Cuadradas">Tortas Cuadradas</option>
+          <option value="Tortas Circulares">Tortas Circulares</option>
+          <option value="Postres Individuales">Postres Individuales</option>
+          <option value="Productos Sin Az&#250;car">Productos Sin Az&#250;car</option>
+          <option value="Pasteler&#237;a Tradicional">Pasteler&#237;a Tradicional</option>
+          <option value="Productos Sin Gluten">Productos Sin Gluten</option>
+          <option value="Productos Vegana">Productos Vegana</option>
+          <option value="Tortas Especiales">Tortas Especiales</option>
+        </select>
+        <div class="form-error" id="prodCategoria-error"></div>
+      </div>
+      <div class="form-group">
+        <label>Nombre</label>
+        <input type="text" id="prodNombre" class="form-control" placeholder="Torta Cuadrada de Chocolate">
+        <div class="form-error" id="prodNombre-error"></div>
+      </div>
+      <div class="form-group">
+        <label>Precio</label>
+        <input type="text" id="prodPrecio" class="form-control" placeholder="45000">
+        <div class="form-error" id="prodPrecio-error"></div>
+      </div>
+      <div class="form-group">
+        <label>Descripci&#243;n</label>
+        <textarea id="prodDescripcion" class="form-control" placeholder="Deliciosa torta de chocolate..."></textarea>
+        <div class="form-error" id="prodDescripcion-error"></div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Stock</label>
+          <input type="text" id="prodStock" class="form-control" placeholder="10">
+          <div class="form-error" id="prodStock-error"></div>
+        </div>
+        <div class="form-group">
+          <label>Stock Cr&#237;tico</label>
+          <input type="text" id="prodStockCritico" class="form-control" placeholder="2">
+          <div class="form-error" id="prodStockCritico-error"></div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Nombre de imagen (en src/assets/mil-sabores/)</label>
+        <input type="text" id="prodImagen" class="form-control" placeholder="torta-chocolate.jpg">
+        <div class="form-error" id="prodImagen-error"></div>
+      </div>
+      <div class="form-msg" id="prodMsg"></div>
+      <button type="submit" class="btn">Guardar</button>
+    </form>
+  </main>
+</div>
+
+<script src="../src/js/productos.js"></script>
+<script src="../src/js/validaciones.js"></script>
+<script>
+(function(){
+  var user = JSON.parse(localStorage.getItem('ms_usuario_actual'));
+  if(!user || (user.tipo !== 'Administrador' && user.tipo !== 'Vendedor')){ window.location.href = '../login.html'; return; }
+  if(user.tipo === 'Vendedor'){ var mu = document.getElementById('menuUsuarios'); if(mu) mu.style.display = 'none'; }
+  document.getElementById('btnCerrarSesion').addEventListener('click', function(e){ e.preventDefault(); localStorage.removeItem('ms_usuario_actual'); window.location.href = '../login.html'; });
+
+  var params = new URLSearchParams(window.location.search);
+  var editCodigo = params.get('codigo');
+  var editProducto = null;
+  if(editCodigo){
+    editProducto = getProducts().find(function(p){ return p.codigo === editCodigo; });
+    if(editProducto){
+      document.getElementById('formTitle').textContent = 'Editar Producto';
+      document.getElementById('prodCodigo').value = editProducto.codigo;
+      document.getElementById('prodCodigo').readOnly = true;
+      document.getElementById('prodCategoria').value = editProducto.categoria;
+      document.getElementById('prodNombre').value = editProducto.nombre;
+      document.getElementById('prodPrecio').value = editProducto.precio;
+      document.getElementById('prodDescripcion').value = editProducto.descripcion;
+      document.getElementById('prodStock').value = editProducto.stock;
+      document.getElementById('prodStockCritico').value = editProducto.stockCritico;
+      document.getElementById('prodImagen').value = editProducto.imagen;
+    }
+  }
+
+  document.getElementById('productoForm').addEventListener('submit', function(e){
+    e.preventDefault();
+    var valido = validarFormulario([
+      { id: 'prodCodigo', requerido: true, max: 10 },
+      { id: 'prodCategoria', requerido: true, select: true },
+      { id: 'prodNombre', requerido: true, max: 100 },
+      { id: 'prodPrecio', requerido: true, decimal: true },
+      { id: 'prodDescripcion', requerido: true, max: 500 },
+      { id: 'prodStock', requerido: true, soloNumeros: true },
+      { id: 'prodStockCritico', requerido: true, soloNumeros: true },
+      { id: 'prodImagen', requerido: true, max: 100 }
+    ]);
+    if(!valido) return;
+
+    var producto = {
+      codigo: document.getElementById('prodCodigo').value.trim(),
+      categoria: document.getElementById('prodCategoria').value,
+      nombre: document.getElementById('prodNombre').value.trim(),
+      precio: parseFloat(document.getElementById('prodPrecio').value),
+      descripcion: document.getElementById('prodDescripcion').value.trim(),
+      stock: parseInt(document.getElementById('prodStock').value),
+      stockCritico: parseInt(document.getElementById('prodStockCritico').value),
+      imagen: document.getElementById('prodImagen').value.trim()
+    };
+
+    var prods = getProducts();
+    if(editProducto){
+      var idx = prods.findIndex(function(p){ return p.codigo === editCodigo; });
+      if(idx > -1) prods[idx] = producto;
+    } else {
+      if(prods.find(function(p){ return p.codigo === producto.codigo; })){
+        document.getElementById('prodMsg').className = 'form-msg error';
+        document.getElementById('prodMsg').textContent = 'El c&#243;digo ya existe.';
+        return;
+      }
+      prods.push(producto);
+    }
+    saveProducts(prods);
+    document.getElementById('prodMsg').className = 'form-msg success';
+    document.getElementById('prodMsg').textContent = 'Producto guardado. Redirigiendo...';
+    setTimeout(function(){ window.location.href = 'productos.html'; }, 1000);
+  });
+})();
+</script>
+</body>
+</html>

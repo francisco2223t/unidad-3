@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Blog - Pasteler&#237;a 1000 Sabores</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700;900&family=Pacifico&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="src/css/style.css">
+</head>
+<body>
+
+<header class="header">
+  <div class="header-inner container">
+    <a href="index.html" class="logo"><img src="src/assets/mil-sabores/hero-title.png" alt="1000 Sabores"> 1000 Sabores</a>
+    <nav class="nav" id="mainNav">
+      <a href="index.html">Inicio</a>
+      <a href="productos.html">Productos</a>
+      <a href="nosotros.html">Nosotros</a>
+      <a href="blog.html">Blog</a>
+      <a href="contacto.html">Contacto</a>
+      <a href="login.html">Ingresar</a>
+      <a href="carrito.html" class="cart-icon">&#128722; <span class="cart-badge">0</span></a>
+    </nav>
+    <button class="hamburger" onclick="document.getElementById('mainNav').classList.toggle('open')">&#9776;</button>
+  </div>
+</header>
+
+<main>
+  <section class="section">
+    <div class="container" style="max-width:800px;margin:0 auto" id="blogContent">
+    </div>
+  </section>
+</main>
+
+<footer class="footer">
+  <div class="container footer-grid">
+    <div>
+      <h3>Pasteler&#237;a 1000 Sabores</h3>
+      <p>&#128205; Santiago, Chile</p>
+      <p>&#128222; +56 2 2123 4567</p>
+      <p>&#9993; contacto@1000sabores.cl</p>
+    </div>
+    <div>
+      <h3>Horario</h3>
+      <p>Lun - S&#225;b: 8:00 - 20:00</p>
+      <p>Dom: 9:00 - 14:00</p>
+    </div>
+    <div>
+      <h3>Enlaces</h3>
+      <a href="productos.html">Productos</a>
+      <a href="nosotros.html">Nosotros</a>
+      <a href="blog.html">Blog</a>
+      <a href="contacto.html">Contacto</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>&copy; 2026 Pasteler&#237;a 1000 Sabores.</p>
+  </div>
+</footer>
+
+<div class="toast" id="toast"></div>
+<script src="src/js/carrito.js"></script>
+<script>
+var blogs = [
+  {
+    id: 1,
+    titulo: 'La historia de la torta m&#225;s grande del mundo',
+    imagen: 'torta-especial.jpg',
+    contenido: '<p>En 1995, Pasteler&#237;a 1000 Sabores fue invitada a participar en la creaci&#243;n de la torta m&#225;s grande del mundo, un r&#233;cord Guinness que reuni&#243; a los mejores pasteleros de Chile.</p><p>La torta pes&#243; m&#225;s de 5 toneladas y fue elaborada con ingredientes donados por productores locales. Nuestro equipo estuvo a cargo de la decoraci&#243;n y el dise&#241;o de los pisos superiores.</p><p>Este hito marc&#243; un antes y un despu&#233;s en nuestra historia, posicion&#225;ndonos como referentes de la reposter&#237;a nacional y motiv&#225;ndonos a seguir innovando.</p>'
+  },
+  {
+    id: 2,
+    titulo: 'Receta: Cl&#225;sico Manjar chileno',
+    imagen: 'torta-manjar.jpg',
+    contenido: '<p>El manjar chileno es uno de los dulces m&#225;s tradicionales de nuestra gastronom&#237;a. Te compartimos nuestra receta familiar.</p><p><strong>Ingredientes:</strong></p><ul><li>1 litro de leche entera</li><li>1 taza de az&#250;car</li><li>1 rama de canela</li><li>1 cucharadita de bicarbonato de sodio</li><li>Esencia de vainilla al gusto</li></ul><p><strong>Preparaci&#243;n:</strong></p><p>En una olla grande, mezcla la leche con el az&#250;car y la canela. Lleva a fuego medio, revolviendo constantemente. Agrega el bicarbonato y sigue revolviendo hasta que espese (aproximadamente 45 minutos). Retira la canela, agrega vainilla y deja enfriar.</p>'
+  },
+  {
+    id: 3,
+    titulo: 'Consejos para decorar tortas',
+    imagen: 'cupcakes.jpg',
+    contenido: '<p>Nuestros estudiantes de gastronom&#237;a de Duoc UC comparten sus mejores consejos para decorar tortas como un profesional.</p><p><strong>1. La base es clave:</strong> Aseg&#250;rate de que tu bizcocho est&#233; completamente fr&#237;o antes de decorar.</p><p><strong>2. Usa manga pastelera:</strong> Practica con diferentes boquillas para crear flores, rosetones y bordes.</p><p><strong>3. Colores que contrasten:</strong> Combina colores complementarios para un efecto visual impactante.</p><p><strong>4. Texturas variadas:</strong> Mezcla elementos lisos, rugosos y brillantes para dar profundidad.</p><p><strong>5. Fruta fresca:</strong> Las frutas de estaci&#243;n no solo decoran, sino que aportan frescura y sabor.</p>'
+  }
+];
+document.addEventListener('DOMContentLoaded', function(){
+  var params = new URLSearchParams(window.location.search);
+  var id = parseInt(params.get('id'));
+  var b = blogs.find(function(x){ return x.id === id; });
+  var cont = document.getElementById('blogContent');
+  if(!b){ cont.innerHTML = '<p class="cart-empty">Art&#237;culo no encontrado.</p><a href="blog.html" class="btn">Volver al blog</a>'; return; }
+  cont.innerHTML = '<a href="blog.html" class="btn btn-secondary btn-sm">&larr; Volver al blog</a>'+
+    '<h2 style="text-align:left;margin-top:20px">'+b.titulo+'</h2>'+
+    '<img src="src/assets/mil-sabores/'+b.imagen+'" alt="'+b.titulo+'" style="width:100%;max-height:350px;object-fit:cover;border-radius:var(--radius);margin:16px 0">'+
+    '<div style="font-size:1.05rem;line-height:1.8">'+b.contenido+'</div>';
+});
+</script>
+</body>
+</html>

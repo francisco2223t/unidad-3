@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Contacto - Pasteler&#237;a 1000 Sabores</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700;900&family=Pacifico&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="src/css/style.css">
+</head>
+<body>
+
+<header class="header">
+  <div class="header-inner container">
+    <a href="index.html" class="logo"><img src="src/assets/mil-sabores/hero-title.png" alt="1000 Sabores"> 1000 Sabores</a>
+    <nav class="nav" id="mainNav">
+      <a href="index.html">Inicio</a>
+      <a href="productos.html">Productos</a>
+      <a href="nosotros.html">Nosotros</a>
+      <a href="blog.html">Blog</a>
+      <a href="contacto.html">Contacto</a>
+      <a href="login.html">Ingresar</a>
+      <a href="carrito.html" class="cart-icon">&#128722; <span class="cart-badge">0</span></a>
+    </nav>
+    <button class="hamburger" onclick="document.getElementById('mainNav').classList.toggle('open')">&#9776;</button>
+  </div>
+</header>
+
+<main>
+  <section class="section">
+    <div class="container" style="max-width:600px;margin:0 auto">
+      <h2>Contacto</h2>
+      <p style="text-align:center;margin-bottom:24px">&#191;Tienes dudas o quieres hacer un pedido especial? Escr&#237;benos.</p>
+
+      <form id="contactForm">
+        <div class="form-group">
+          <label>Nombre</label>
+          <input type="text" id="contNombre" class="form-control" placeholder="Tu nombre">
+          <div class="form-error" id="contNombre-error"></div>
+        </div>
+        <div class="form-group">
+          <label>Correo electr&#243;nico</label>
+          <input type="email" id="contEmail" class="form-control" placeholder="tucorreo@gmail.com">
+          <div class="form-error" id="contEmail-error"></div>
+        </div>
+        <div class="form-group">
+          <label>Comentario</label>
+          <textarea id="contComentario" class="form-control" placeholder="Escribe tu mensaje..."></textarea>
+          <div class="form-error" id="contComentario-error"></div>
+        </div>
+        <div class="form-msg" id="contactMsg"></div>
+        <button type="submit" class="btn" style="width:100%">Enviar mensaje</button>
+      </form>
+    </div>
+  </section>
+</main>
+
+<footer class="footer">
+  <div class="container footer-grid">
+    <div>
+      <h3>Pasteler&#237;a 1000 Sabores</h3>
+      <p>&#128205; Santiago, Chile</p>
+      <p>&#128222; +56 2 2123 4567</p>
+      <p>&#9993; contacto@1000sabores.cl</p>
+    </div>
+    <div>
+      <h3>Horario</h3>
+      <p>Lun - S&#225;b: 8:00 - 20:00</p>
+      <p>Dom: 9:00 - 14:00</p>
+    </div>
+    <div>
+      <h3>Enlaces</h3>
+      <a href="productos.html">Productos</a>
+      <a href="nosotros.html">Nosotros</a>
+      <a href="blog.html">Blog</a>
+      <a href="contacto.html">Contacto</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>&copy; 2026 Pasteler&#237;a 1000 Sabores.</p>
+  </div>
+</footer>
+
+<div class="toast" id="toast"></div>
+<script src="src/js/validaciones.js"></script>
+<script src="src/js/carrito.js"></script>
+<script>
+document.getElementById('contactForm').addEventListener('submit', function(e){
+  e.preventDefault();
+  var valido = validarFormulario([
+    { id: 'contNombre', requerido: true, max: 100 },
+    { id: 'contEmail', requerido: true, email: true, emailPermitido: true, max: 100 },
+    { id: 'contComentario', requerido: true, max: 500 }
+  ]);
+  if(!valido) return;
+  document.getElementById('contactMsg').className = 'form-msg success';
+  document.getElementById('contactMsg').textContent = '&#127881; Mensaje enviado correctamente. Te contactaremos pronto.';
+  this.reset();
+});
+</script>
+</body>
+</html>

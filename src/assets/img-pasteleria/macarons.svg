@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="600" height="400" viewBox="0 0 600 400">
+  <defs><linearGradient id="bg2" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#fdf3e7"/><stop offset="100%" stop-color="#f4c2c2"/></linearGradient></defs>
+  <rect width="600" height="400" fill="url(#bg2)"/>
+  <g transform="translate(300,190)">
+    <ellipse cx="-70" cy="0" rx="45" ry="35" fill="#e8a0b4"/>
+    <ellipse cx="-70" cy="4" rx="42" ry="32" fill="#f4c2c2"/>
+    <ellipse cx="-70" cy="8" rx="40" ry="8" fill="#e8d5c0"/>
+    <ellipse cx="0" cy="-10" rx="48" ry="38" fill="#a8d8a8"/>
+    <ellipse cx="0" cy="-6" rx="45" ry="35" fill="#c8e6c9"/>
+    <ellipse cx="0" cy="-2" rx="43" ry="9" fill="#e8d5c0"/>
+    <ellipse cx="70" cy="0" rx="44" ry="34" fill="#d4a0d4"/>
+    <ellipse cx="70" cy="4" rx="41" ry="31" fill="#e8c8e8"/>
+    <ellipse cx="70" cy="8" rx="39" ry="8" fill="#e8d5c0"/>
+  </g>
+  <text x="300" y="340" text-anchor="middle" fill="rgba(92,58,33,0.4)" font-family="Georgia,serif" font-size="18">Macarons Franceses</text>
+</svg>

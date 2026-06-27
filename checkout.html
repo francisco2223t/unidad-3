@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Checkout - Pasteler&#237;a 1000 Sabores</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700;900&family=Pacifico&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="src/css/style.css">
+</head>
+<body>
+
+<header class="header">
+  <div class="header-inner container">
+    <a href="index.html" class="logo"><img src="src/assets/mil-sabores/hero-title.png" alt="1000 Sabores"> 1000 Sabores</a>
+    <nav class="nav" id="mainNav">
+      <a href="index.html">Inicio</a>
+      <a href="productos.html">Productos</a>
+      <a href="nosotros.html">Nosotros</a>
+      <a href="blog.html">Blog</a>
+      <a href="contacto.html">Contacto</a>
+      <a href="login.html">Ingresar</a>
+      <a href="carrito.html" class="cart-icon">&#128722; <span class="cart-badge">0</span></a>
+    </nav>
+    <button class="hamburger" onclick="document.getElementById('mainNav').classList.toggle('open')">&#9776;</button>
+  </div>
+</header>
+
+<main>
+  <section class="section">
+    <div class="container" style="max-width:600px;margin:0 auto">
+      <h2>Finalizar Pedido</h2>
+
+      <div id="checkoutCartResumen"></div>
+
+      <form id="checkoutForm">
+        <div class="form-group">
+          <label>Nombre completo</label>
+          <input type="text" id="chkNombre" class="form-control" required>
+        </div>
+        <div class="form-group">
+          <label>Correo electr&#243;nico</label>
+          <input type="email" id="chkEmail" class="form-control" required>
+        </div>
+        <div class="form-group">
+          <label>Tel&#233;fono</label>
+          <input type="tel" id="chkTelefono" class="form-control" required>
+        </div>
+        <div class="form-group">
+          <label>Direcci&#243;n de entrega</label>
+          <input type="text" id="chkDireccion" class="form-control" required>
+        </div>
+        <div class="form-group">
+          <label>Fecha de entrega</label>
+          <input type="date" id="chkFecha" class="form-control" required>
+        </div>
+        <div class="form-group">
+          <label>Notas adicionales</label>
+          <textarea id="chkNotas" class="form-control"></textarea>
+        </div>
+
+        <div id="discountInfo" style="background:#d4edda;border-radius:10px;padding:14px;text-align:center;font-weight:600;color:#155724;display:none"></div>
+
+        <div style="text-align:right;font-size:1.3rem;padding:16px 0">
+          Total: <strong id="checkoutTotal">$0 CLP</strong>
+        </div>
+
+        <button type="submit" class="btn" style="width:100%">Confirmar Pedido</button>
+        <a href="carrito.html" class="btn btn-secondary" style="width:100%;text-align:center;margin-top:8px">Volver al carrito</a>
+      </form>
+
+      <div id="orderConfirm" class="form-msg success" style="display:none;margin-top:20px"></div>
+    </div>
+  </section>
+</main>
+
+<footer class="footer">
+  <div class="container footer-grid">
+    <div>
+      <h3>Pasteler&#237;a 1000 Sabores</h3>
+      <p>&#128205; Santiago, Chile</p>
+      <p>&#128222; +56 2 2123 4567</p>
+      <p>&#9993; contacto@1000sabores.cl</p>
+    </div>
+    <div>
+      <h3>Horario</h3>
+      <p>Lun - S&#225;b: 8:00 - 20:00</p>
+      <p>Dom: 9:00 - 14:00</p>
+    </div>
+    <div>
+      <h3>Enlaces</h3>
+      <a href="productos.html">Productos</a>
+      <a href="nosotros.html">Nosotros</a>
+      <a href="blog.html">Blog</a>
+      <a href="contacto.html">Contacto</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>&copy; 2026 Pasteler&#237;a 1000 Sabores.</p>
+  </div>
+</footer>
+
+<div class="toast" id="toast"></div>
+<script src="src/js/productos.js"></script>
+<script src="src/js/carrito.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function(){
+  var cart = getCart();
+  if(!cart.length){ window.location.href = 'carrito.html'; return; }
+
+  var user = JSON.parse(localStorage.getItem('ms_usuario_actual'));
+  if(user){
+    document.getElementById('chkNombre').value = user.nombre || '';
+    document.getElementById('chkEmail').value = user.email || '';
+  }
+
+  var total = 0;
+  var html = '<div style="background:var(--bg);border-radius:10px;padding:16px;margin-bottom:20px"><h3 style="margin:0 0 12px;font-size:1rem">Resumen del pedido</h3>';
+  cart.forEach(function(item){
+    var p = getProductByCode(item.codigo);
+    if(!p) return;
+    var sub = p.precio * item.cantidad;
+    total += sub;
+    html += '<div style="display:flex;justify-content:space-between;font-size:.9rem;padding:4px 0">'+
+      '<span>'+item.cantidad+'x '+p.nombre+'</span><span>'+formatPrice(sub)+'</span></div>';
+  });
+
+  var desc = 0;
+  if(user && user.desc50) desc = 0.50;
+  if(user && user.codigo === 'FELICES50') desc = Math.max(desc, 0.10);
+
+  if(desc > 0){
+    var ahorro = Math.round(total * desc);
+    total = total - ahorro;
+    document.getElementById('discountInfo').style.display = 'block';
+    document.getElementById('discountInfo').innerHTML = '&#127881; Descuento del '+(desc*100)+'% aplicado (-'+formatPrice(ahorro)+')';
+  }
+
+  html += '<div style="border-top:2px solid rgba(139,69,19,0.1);padding-top:8px;margin-top:8px;font-weight:700;display:flex;justify-content:space-between">'+
+    '<span>Total</span><span>'+formatPrice(total)+'</span></div></div>';
+  document.getElementById('checkoutCartResumen').innerHTML = html;
+  document.getElementById('checkoutTotal').textContent = formatPrice(total);
+
+  var hoy = new Date();
+  document.getElementById('chkFecha').min = hoy.toISOString().split('T')[0];
+});
+
+document.getElementById('checkoutForm').addEventListener('submit', function(e){
+  e.preventDefault();
+  var cart = getCart();
+  if(!cart.length){ mostrarToast('El carrito est&#225; vac&#237;o.'); return; }
+  var user = JSON.parse(localStorage.getItem('ms_usuario_actual'));
+  if(!user){ mostrarToast('Debes iniciar sesi&#243;n.'); window.location.href = 'login.html'; return; }
+
+  var nombre = document.getElementById('chkNombre').value.trim();
+  var direccion = document.getElementById('chkDireccion').value.trim();
+  var fecha = document.getElementById('chkFecha').value;
+
+  if(!nombre || !direccion || !fecha){ mostrarToast('Completa los campos obligatorios.'); return; }
+
+  var total = 0;
+  cart.forEach(function(item){
+    var p = getProductByCode(item.codigo);
+    if(p) total += p.precio * item.cantidad;
+  });
+  var desc = user.desc50 ? 0.50 : (user.codigo === 'FELICES50' ? 0.10 : 0);
+  total = total - Math.round(total * desc);
+
+  var pedidos = JSON.parse(localStorage.getItem('ms_pedidos')) || [];
+  pedidos.unshift({
+    items: JSON.parse(JSON.stringify(cart)),
+    total: total,
+    fecha: fecha,
+    direccion: direccion,
+    estado: 'pendiente',
+    creado: new Date().toISOString(),
+    usuario: user.email
+  });
+  localStorage.setItem('ms_pedidos', JSON.stringify(pedidos));
+  clearCart();
+
+  document.getElementById('checkoutForm').style.display = 'none';
+  var conf = document.getElementById('orderConfirm');
+  conf.style.display = 'block';
+  conf.innerHTML = '&#127881; &#161;Pedido confirmado!<br><br>'+
+    'Gracias por tu compra, '+user.nombre+'.<br>'+
+    'Recibir&#225;s notificaciones del estado de tu pedido.<br><br>'+
+    '<a href="index.html" class="btn">Volver al inicio</a>';
+});
+</script>
+</body>
+</html>

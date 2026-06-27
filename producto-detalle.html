@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Detalle Producto - Pasteler&#237;a 1000 Sabores</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700;900&family=Pacifico&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="src/css/style.css">
+</head>
+<body>
+
+<header class="header">
+  <div class="header-inner container">
+    <a href="index.html" class="logo"><img src="src/assets/mil-sabores/hero-title.png" alt="1000 Sabores"> 1000 Sabores</a>
+    <nav class="nav" id="mainNav">
+      <a href="index.html">Inicio</a>
+      <a href="productos.html">Productos</a>
+      <a href="nosotros.html">Nosotros</a>
+      <a href="blog.html">Blog</a>
+      <a href="contacto.html">Contacto</a>
+      <a href="login.html">Ingresar</a>
+      <a href="carrito.html" class="cart-icon">&#128722; <span class="cart-badge">0</span></a>
+    </nav>
+    <button class="hamburger" onclick="document.getElementById('mainNav').classList.toggle('open')">&#9776;</button>
+  </div>
+</header>
+
+<main>
+  <section class="section">
+    <div class="container" style="max-width:800px;margin:0 auto" id="detalleContainer">
+    </div>
+  </section>
+</main>
+
+<footer class="footer">
+  <div class="container footer-grid">
+    <div>
+      <h3>Pasteler&#237;a 1000 Sabores</h3>
+      <p>&#128205; Santiago, Chile</p>
+      <p>&#128222; +56 2 2123 4567</p>
+      <p>&#9993; contacto@1000sabores.cl</p>
+    </div>
+    <div>
+      <h3>Horario</h3>
+      <p>Lun - S&#225;b: 8:00 - 20:00</p>
+      <p>Dom: 9:00 - 14:00</p>
+    </div>
+    <div>
+      <h3>Enlaces</h3>
+      <a href="productos.html">Productos</a>
+      <a href="nosotros.html">Nosotros</a>
+      <a href="blog.html">Blog</a>
+      <a href="contacto.html">Contacto</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>&copy; 2026 Pasteler&#237;a 1000 Sabores.</p>
+  </div>
+</footer>
+
+<div class="toast" id="toast"></div>
+<script src="src/js/productos.js"></script>
+<script src="src/js/carrito.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function(){
+  var params = new URLSearchParams(window.location.search);
+  var codigo = params.get('codigo');
+  var cont = document.getElementById('detalleContainer');
+  if(!codigo){ cont.innerHTML = '<p class="cart-empty">Producto no encontrado.</p>'; return; }
+  var p = getProducts().find(function(x){ return x.codigo === codigo; });
+  if(!p){ cont.innerHTML = '<p class="cart-empty">Producto no encontrado.</p>'; return; }
+  cont.innerHTML = '<a href="productos.html" class="btn btn-secondary btn-sm">&larr; Volver</a>'+
+    '<div style="display:grid;grid-template-columns:1fr 1fr;gap:30px;margin-top:20px">'+
+      '<div><img src="'+imgPath(p.imagen)+'" alt="'+p.nombre+'" style="width:100%;border-radius:var(--radius);box-shadow:var(--shadow)"></div>'+
+      '<div>'+
+        '<span class="cat">'+p.categoria+'</span>'+
+        '<h2 style="text-align:left;margin:8px 0">'+p.nombre+'</h2>'+
+        '<p style="font-size:1rem;margin:12px 0">'+p.descripcion+'</p>'+
+        '<p><strong>C&#243;digo:</strong> '+p.codigo+'</p>'+
+        '<p><strong>Stock:</strong> '+p.stock+' unidades</p>'+
+        '<p style="font-size:1.8rem;font-weight:900;color:var(--accent-chocolate);margin:16px 0">'+formatPrice(p.precio)+'</p>'+
+        '<div class="form-group">'+
+          '<label>Cantidad</label>'+
+          '<input type="number" id="detCantidad" class="form-control" value="1" min="1" max="'+p.stock+'" style="width:100px">'+
+        '</div>'+
+        '<div class="form-group">'+
+          '<label>Mensaje personalizado (opcional)</label>'+
+          '<input type="text" id="detMensaje" class="form-control" placeholder="Feliz Cumplea&#241;os...">'+
+        '</div>'+
+        '<button class="btn" onclick="addDetailToCart()">A&#241;adir al carrito</button>'+
+      '</div>'+
+    '</div>';
+});
+function addDetailToCart(){
+  var params = new URLSearchParams(window.location.search);
+  var codigo = params.get('codigo');
+  var cant = parseInt(document.getElementById('detCantidad').value) || 1;
+  var msg = document.getElementById('detMensaje').value.trim();
+  addToCart(codigo, cant, msg);
+}
+</script>
+</body>
+</html>

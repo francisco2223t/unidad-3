@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="600" height="400" viewBox="0 0 600 400">
+  <defs><linearGradient id="bg" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#5c3a21"/><stop offset="100%" stop-color="#3e2513"/></linearGradient></defs>
+  <rect width="600" height="400" fill="url(#bg)"/>
+  <ellipse cx="300" cy="250" rx="140" ry="60" fill="#4a2e16"/>
+  <ellipse cx="300" cy="230" rx="140" ry="60" fill="#6b4226"/>
+  <ellipse cx="300" cy="220" rx="130" ry="50" fill="#8b5e3c"/>
+  <ellipse cx="300" cy="210" rx="120" ry="45" fill="#a0714f"/>
+  <rect x="230" y="170" width="140" height="50" rx="5" fill="#8b5e3c"/>
+  <ellipse cx="300" cy="170" rx="70" ry="25" fill="#a0714f"/>
+  <path d="M270 170 Q280 140 300 130 Q320 140 330 170Z" fill="#c99a6b"/>
+  <ellipse cx="300" cy="170" rx="60" ry="20" fill="#b8865a"/>
+  <circle cx="270" cy="215" r="6" fill="#d45"/>
+  <circle cx="310" cy="225" r="5" fill="#d45"/>
+  <circle cx="290" cy="235" r="7" fill="#d45"/>
+  <circle cx="340" cy="210" r="4" fill="#d45"/>
+  <circle cx="255" cy="230" r="4" fill="#d45"/>
+  <text x="300" y="350" text-anchor="middle" fill="rgba(255,255,255,0.4)" font-family="Georgia,serif" font-size="18">Torta de Chocolate</text>
+</svg>
