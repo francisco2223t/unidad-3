@@ -102,7 +102,8 @@ document.getElementById('loginForm').addEventListener('submit', function(e){
   localStorage.setItem('ms_usuario_actual', JSON.stringify(user));
   document.getElementById('loginMsg').className = 'form-msg success';
   document.getElementById('loginMsg').textContent = '&#161;Bienvenido, '+user.nombre+'! Redirigiendo...';
-  setTimeout(function(){ window.location.href = 'index.html'; }, 1200);
+  var destino = (user.tipo === 'Administrador' || user.tipo === 'Vendedor') ? 'admin/index.html' : 'index.html';
+  setTimeout(function(){ window.location.href = destino; }, 1200);
 });
 </script>
 <script src="src/js/carrito.js"></script>

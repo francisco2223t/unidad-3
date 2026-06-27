@@ -106,7 +106,35 @@ function mostrarToast(msg){
   setTimeout(function(){ t.classList.remove('show'); }, 2800);
 }
 
+function actualizarMenuUsuario(){
+  var user = JSON.parse(localStorage.getItem('ms_usuario_actual'));
+  var ingLink = document.querySelector('.nav a[href="login.html"]');
+  if(!ingLink) return;
+  if(!user){
+    ingLink.textContent = 'Ingresar';
+    ingLink.href = 'login.html';
+    return;
+  }
+  var panelLink = '';
+  if(user.tipo === 'Administrador' || user.tipo === 'Vendedor') panelLink = '<a href="admin/index.html">Panel Admin</a>';
+  ingLink.outerHTML =
+    '<span style="position:relative;display:inline-block" class="user-menu">'+
+      '<a href="#" onclick="event.preventDefault();this.nextElementSibling.classList.toggle(\'show\')" style="font-weight:700">&#128100; '+user.nombre+'</a>'+
+      '<div style="display:none;position:absolute;top:100%;right:0;background:var(--surface);border-radius:10px;box-shadow:var(--shadow);min-width:180px;z-index:200;padding:8px 0" class="user-dropdown">'+
+        '<a href="perfil.html" style="display:block;padding:8px 16px;font-size:.85rem">&#128100; Mi Perfil</a>'+
+        panelLink+
+        '<a href="#" onclick="event.preventDefault();localStorage.removeItem(\'ms_usuario_actual\');window.location.href=\'login.html\'" style="display:block;padding:8px 16px;font-size:.85rem;color:#c0392b">&#128682; Cerrar Sesi&#243;n</a>'+
+      '</div>'+
+    '</span>';
+  document.addEventListener('click', function(e){
+    if(!e.target.closest('.user-menu')){
+      document.querySelectorAll('.user-dropdown.show').forEach(function(d){ d.classList.remove('show'); });
+    }
+  });
+}
+
 document.addEventListener('DOMContentLoaded', function(){
   updateCartBadge();
   renderCart();
+  actualizarMenuUsuario();
 });

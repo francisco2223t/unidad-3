@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mi Perfil - Pasteler&#237;a 1000 Sabores</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700;900&family=Pacifico&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="src/css/style.css">
+</head>
+<body>
+
+<header class="header">
+  <div class="header-inner container">
+    <a href="index.html" class="logo"><img src="src/assets/mil-sabores/hero-title.png" alt="1000 Sabores"> 1000 Sabores</a>
+    <nav class="nav" id="mainNav">
+      <a href="index.html">Inicio</a>
+      <a href="productos.html">Productos</a>
+      <a href="nosotros.html">Nosotros</a>
+      <a href="blog.html">Blog</a>
+      <a href="contacto.html">Contacto</a>
+      <a href="login.html">Ingresar</a>
+      <a href="carrito.html" class="cart-icon">&#128722; <span class="cart-badge">0</span></a>
+    </nav>
+    <button class="hamburger" onclick="document.getElementById('mainNav').classList.toggle('open')">&#9776;</button>
+  </div>
+</header>
+
+<main>
+  <section class="section">
+    <div class="container" style="max-width:600px;margin:0 auto">
+      <h2>Mi Perfil</h2>
+      <div id="perfilContent" style="background:var(--surface);border-radius:var(--radius);padding:24px;box-shadow:var(--shadow)">
+        <p class="cart-empty">Cargando...</p>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="footer">
+  <div class="container footer-grid">
+    <div>
+      <h3>Pasteler&#237;a 1000 Sabores</h3>
+      <p>&#128205; Santiago, Chile</p>
+      <p>&#128222; +56 2 2123 4567</p>
+      <p>&#9993; contacto@1000sabores.cl</p>
+    </div>
+    <div>
+      <h3>Horario</h3>
+      <p>Lun - S&#225;b: 8:00 - 20:00</p>
+      <p>Dom: 9:00 - 14:00</p>
+    </div>
+    <div>
+      <h3>Enlaces</h3>
+      <a href="productos.html">Productos</a>
+      <a href="nosotros.html">Nosotros</a>
+      <a href="blog.html">Blog</a>
+      <a href="contacto.html">Contacto</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>&copy; 2026 Pasteler&#237;a 1000 Sabores.</p>
+  </div>
+</footer>
+
+<div class="toast" id="toast"></div>
+<script src="src/js/carrito.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function(){
+  var user = JSON.parse(localStorage.getItem('ms_usuario_actual'));
+  var cont = document.getElementById('perfilContent');
+  if(!user){
+    cont.innerHTML = '<p class="cart-empty">No has iniciado sesi&#243;n.</p><a href="login.html" class="btn">Iniciar Sesi&#243;n</a>';
+    return;
+  }
+  cont.innerHTML =
+    '<div style="display:grid;gap:12px">'+
+      '<div><strong>RUN:</strong> '+user.run+'</div>'+
+      '<div><strong>Nombre:</strong> '+user.nombre+'</div>'+
+      '<div><strong>Email:</strong> '+user.email+'</div>'+
+      '<div><strong>Edad:</strong> '+user.edad+'</div>'+
+      '<div><strong>Tipo:</strong> '+user.tipo+'</div>'+
+      '<div><strong>Direcci&#243;n:</strong> '+(user.direccion||'-')+'</div>'+
+      '<div><strong>Regi&#243;n:</strong> '+(user.region||'-')+'</div>'+
+      '<div><strong>Comuna:</strong> '+(user.comuna||'-')+'</div>'+
+    '</div>'+
+    '<div style="margin-top:20px;display:flex;gap:10px;flex-wrap:wrap">'+
+      '<a href="index.html" class="btn btn-sm">Volver al inicio</a>'+
+      '<a href="#" class="btn btn-sm btn-secondary" onclick="localStorage.removeItem(\'ms_usuario_actual\');window.location.href=\'login.html\'">Cerrar Sesi&#243;n</a>'+
+    '</div>';
+});
+</script>
+</body>
+</html>
