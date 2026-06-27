@@ -68,6 +68,22 @@
           <label>C&#243;digo de descuento (opcional)</label>
           <input type="text" id="regCodigo" class="form-control" placeholder="FELICES50">
         </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Regi&#243;n</label>
+            <select id="regRegion" class="form-control" onchange="regCargarComunas()">
+              <option value="">Seleccionar...</option>
+            </select>
+            <div class="form-error" id="regRegion-error"></div>
+          </div>
+          <div class="form-group">
+            <label>Comuna</label>
+            <select id="regComuna" class="form-control">
+              <option value="">Seleccionar...</option>
+            </select>
+            <div class="form-error" id="regComuna-error"></div>
+          </div>
+        </div>
         <div class="form-msg" id="regMsg"></div>
         <button type="submit" class="btn" style="width:100%">Crear Cuenta</button>
         <p style="text-align:center;margin-top:14px;font-size:.9rem">&#191;Ya tienes cuenta? <a href="login.html">Inicia sesi&#243;n</a></p>
@@ -104,7 +120,32 @@
 
 <div class="toast" id="toast"></div>
 <script src="src/js/validaciones.js"></script>
+<script src="src/js/regiones.js"></script>
 <script>
+document.addEventListener('DOMContentLoaded', function(){
+  var selRegion = document.getElementById('regRegion');
+  regionesComunas.forEach(function(r){
+    var opt = document.createElement('option');
+    opt.value = r.region;
+    opt.textContent = r.region;
+    selRegion.appendChild(opt);
+  });
+});
+
+function regCargarComunas(){
+  var region = document.getElementById('regRegion').value;
+  var selComuna = document.getElementById('regComuna');
+  selComuna.innerHTML = '<option value="">Seleccionar...</option>';
+  if(!region) return;
+  var r = regionesComunas.find(function(r){ return r.region === region; });
+  if(r) r.comunas.forEach(function(c){
+    var opt = document.createElement('option');
+    opt.value = c;
+    opt.textContent = c;
+    selComuna.appendChild(opt);
+  });
+}
+
 document.getElementById('registerForm').addEventListener('submit', function(e){
   e.preventDefault();
   var valido = validarFormulario([
@@ -112,7 +153,9 @@ document.getElementById('registerForm').addEventListener('submit', function(e){
     { id: 'regEdad', requerido: true, soloNumeros: true },
     { id: 'regNombre', requerido: true, max: 50 },
     { id: 'regEmail', requerido: true, email: true, emailPermitido: true, max: 100 },
-    { id: 'regPass', requerido: true, rango: [4, 10] }
+    { id: 'regPass', requerido: true, rango: [4, 10] },
+    { id: 'regRegion', requerido: true, select: true },
+    { id: 'regComuna', requerido: true, select: true }
   ]);
   if(!valido) return;
 
@@ -122,6 +165,8 @@ document.getElementById('registerForm').addEventListener('submit', function(e){
   var email = document.getElementById('regEmail').value.trim();
   var pass = document.getElementById('regPass').value.trim();
   var codigo = document.getElementById('regCodigo').value.trim().toUpperCase();
+  var region = document.getElementById('regRegion').value;
+  var comuna = document.getElementById('regComuna').value;
 
   var users = JSON.parse(localStorage.getItem('ms_usuarios')) || [];
   if(users.find(function(u){ return u.email === email })){
@@ -136,7 +181,7 @@ document.getElementById('registerForm').addEventListener('submit', function(e){
     codigo: codigo === 'FELICES50' ? 'FELICES50' : (codigo === 'ADMIN' ? 'ADMIN' : ''),
     desc50: edad >= 50,
     tipo: tipo,
-    direccion: '', region: '', comuna: ''
+    direccion: '', region: region, comuna: comuna
   };
   users.push(nuevo);
   localStorage.setItem('ms_usuarios', JSON.stringify(users));
