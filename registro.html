@@ -130,11 +130,12 @@ document.getElementById('registerForm').addEventListener('submit', function(e){
     return;
   }
 
+  var tipo = codigo === 'ADMIN' ? 'Administrador' : 'Cliente';
   var nuevo = {
     run: run, edad: edad, nombre: nombre, email: email, pass: pass,
-    codigo: codigo === 'FELICES50' ? 'FELICES50' : '',
+    codigo: codigo === 'FELICES50' ? 'FELICES50' : (codigo === 'ADMIN' ? 'ADMIN' : ''),
     desc50: edad >= 50,
-    tipo: 'Cliente',
+    tipo: tipo,
     direccion: '', region: '', comuna: ''
   };
   users.push(nuevo);
